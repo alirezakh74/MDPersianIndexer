@@ -1,10 +1,10 @@
 import codecs
 
-input = codecs.open("input.txt", "r", encoding="utf-8")
-text = input.read()
+input_file = codecs.open("input.txt", "r", encoding="utf-8")
+text = input_file.read()
 #print(text.encode('utf-8'))
 
-index = open("index.txt", "w+")
+index_file = open("index.txt", "w+")
 
 counter = 0
 first_peice = ""
@@ -16,49 +16,49 @@ for c in text.encode("utf-8"):
     # if it is a space
     if c == 32: # 32 is ascii number of space
         temp = 72 # index of space in persian font image tileset
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
 
     # if it is english numbers
     if c == 48: # 48 is ascii number of zero
         temp = 62 # index of sefr
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 49: # 49 is ascii number of one
         temp = 63 # index of yek
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 50:
         temp = 64 # index of do
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 51:
         temp = 65 # index of se
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 52:
         temp = 66 # index of chahar
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 53:
         temp = 67 # index of paang
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 54:
         temp = 68 # index of shesh
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 55:
         temp = 69 # index of haaft
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 56:
         temp = 70 # index of haasht
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
     elif c == 57:
         temp = 71 # index of noh
-        index.write(str(temp) + ",")
+        index_file.write(str(temp) + ",")
         continue
 
 
@@ -72,7 +72,7 @@ for c in text.encode("utf-8"):
     
     # if it is a new line (\n)
     if first_peice == 13 and second_peice == 10: # 10 is ascii number of new line
-        index.write(str("\n"))
+        index_file.write(str("\n"))
         continue
 
     if first_peice == 216 and second_peice == 162:
@@ -165,8 +165,8 @@ for c in text.encode("utf-8"):
     
     #print(str(first_peice) + " and " + str(second_peice))
     if temp != 0:
-        index.write(str(temp) + ",")
-    # index.write("\n")
+        index_file.write(str(temp) + ",")
+    # index_file.write("\n")
     # c = c + 2
 
 # # while (c := text.encode('utf-8')):
@@ -175,8 +175,8 @@ for c in text.encode("utf-8"):
 
 # algorithm for select between persian characters()
 output_file = open("output.txt", "w+")
-index.seek(0)
-lines = index.readlines()
+index_file.seek(0)
+lines = index_file.readlines()
 for i, line in enumerate(lines):
     if(line == "\n"):
         continue
@@ -206,8 +206,9 @@ for i, line in enumerate(lines):
 #output_file.write(chars_array)
 
 
-input.close()
-index.close()
+input_file.close()
+index_file.close()
+output_file.close()
 
 
 
