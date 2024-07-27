@@ -1,0 +1,1 @@
+MDPersianIndexer get an input text file with persian characters and write array of character indexes in font tileset that SGDK can display
