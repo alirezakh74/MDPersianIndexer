@@ -9,8 +9,9 @@ index_file = open("index.txt", "w+")
 counter = 0
 first_peice = ""
 second_peice = ""
-for c in text.encode("utf-8"):
+for i, c in enumerate(text.encode("utf-8")):
     #print(c)
+
     temp = 0
 
     # if it is a space
@@ -165,13 +166,16 @@ for c in text.encode("utf-8"):
     
     #print(str(first_peice) + " and " + str(second_peice))
     if temp != 0:
-        index_file.write(str(temp) + ",")
+        # if it is not last char
+        if(len(list(enumerate(text.encode("utf-8")))) - 1 != i):
+            index_file.write(str(temp) + ",")
+        else:
+            index_file.write(str(temp))
     # index_file.write("\n")
     # c = c + 2
 
 # # while (c := text.encode('utf-8')):
 # #     print(c)
-
 
 # algorithm for select between persian characters()
 output_file = open("output.txt", "w+")
@@ -181,17 +185,19 @@ for i, line in enumerate(lines):
     if(line == "\n"):
         continue
     current_line_array = line.split(",")
-    for j in current_line_array:
+    for counter, j in enumerate(current_line_array):
         if(j == ""):
             continue
         if(j == "\n"):
             output_file.write(str(73) + ",")
             continue
-        if(i != len(lines)):
+        if(counter != len(current_line_array) - 1):
             output_file.write(str(j) + ",")
         else:
             # don't use comma after last character
             output_file.write(str(j))
+
+# algorithm for set correct char(first, last, middle)
 
 # remove last comma
 
@@ -205,10 +211,71 @@ for i, line in enumerate(lines):
 
 #output_file.write(chars_array)
 
+#flush stuff on buffer to output.txt file
+#output_file.flush()
+output_file.close()
+output_file = open("output.txt", "r")
+
+# final output for set first, middle or last charactercurrent_line_array
+final_output_file = open("final_output.txt", "w+")
+lines = output_file.readlines()
+for i, line in enumerate(lines):
+    #print(str(i) + " and " + str(line))
+    if(line == "\n"):
+        continue
+    current_line_array = line.split(",")
+    for counter, j in enumerate(current_line_array):
+
+        # set andstring variable base on is it last or not char
+        if counter == len(current_line_array) - 1:
+            and_string = ""
+        else:
+            and_string = ", "
+
+        # if counter == len(current_line_array) - 1:
+        #     break
+        # algorithm for select persian chars
+        # if char is not ain, ghain and aa(first or second aa)
+        number = int(j)
+        if(number == 20 or number == 21 or number == 22 or number == 23 or number == 24 or number == 57):
+            final_output_file.write(str(number) + and_string)
+        elif((number != 1) and (number != 2) and (number != 35) and (number != 39)):
+            # if char is last char in word or sentence
+            if((counter == len(current_line_array) - 1) or (current_line_array[counter + 1] == str(72)) or (current_line_array[counter + 1] == str(73))):
+                final_output_file.write(str(number + 1) + and_string)
+            else:
+                final_output_file.write(str(number) + and_string)
+        # if char is first aa
+        elif(number == 1):
+             # if char is first char in word and sentence
+            #if(counter == 0 or current_line_array[counter - 1] == 72):
+            #    final_output_file.write(str(number) + and_string)
+            final_output_file.write(str(number) + and_string)
+        # if char is second aa(2 that actually can be sticky or not (can be 2 or 3))
+        elif(number == 2):
+            # if not first char and prevous char Dall Zaal Re Ze jhe Vaav AA
+            if((counter != 0 and current_line_array[counter - 1] != str(72)) and (current_line_array[counter - 1] != str(1) and current_line_array[counter - 1] != str(20) and current_line_array[counter - 1] != str(21) and current_line_array[counter - 1] != str(22) and current_line_array[counter - 1] != str(23) and current_line_array[counter - 1] != str(24) and current_line_array[counter - 1]  != str(57))):
+                final_output_file.write(str(number+1) + and_string)
+            else:
+                final_output_file.write(str(number) + and_string)
+        # if char is aain or ghain
+        elif(number == 35 or number == 39):
+            # if it is first char (index is zero or prevous char is space or it is not last char)
+            if(counter == 0 or current_line_array[counter - 1] == str(72) or current_line_array[counter - 1] == str(72)):
+                final_output_file.write(str(number) + and_string)
+            elif(counter == len(current_line_array) - 1 or current_line_array[counter + 1] == str(72) or current_line_array[counter + 1] == 73):
+                if(current_line_array[counter - 1] == str(1) or current_line_array[counter - 1] == str(2) or current_line_array[counter - 1] == str(20) or current_line_array[counter - 1] == str(21) or current_line_array[counter - 1] == str(22) or current_line_array[counter - 1] == str(23) or current_line_array[counter - 1] == str(24) or current_line_array[counter - 1] == str(57)):
+                    final_output_file.write(str(number + 3) + and_string)
+                else:
+                    final_output_file.write(str(number + 2) + and_string)
+            else:
+                final_output_file.write(str(number + 1) + and_string)
 
 input_file.close()
 index_file.close()
 output_file.close()
+final_output_file.close()
+
 
 
 
